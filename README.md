@@ -1,5 +1,7 @@
 # Wikiarchives.space Frontend
 
+The public, front facing website created with the help of [Nuxt.js](https://nuxtjs.org/) and [Vuetify.js](https://vuetifyjs.com/).
+
 ## Build Setup
 
 ```bash
@@ -18,3 +20,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Icon pack
+
+To search for a icon name you can use this website: [https://materialdesignicons.com/](https://materialdesignicons.com/)
