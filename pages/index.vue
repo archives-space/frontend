@@ -13,10 +13,20 @@
     </Banner>
 
     <Container>
-      <Browser
-        hide-breadcrumbs
-        :albums="albums"
-      />
+      <v-row justify="center">
+        <v-col
+          cols="12"
+          lg="10"
+          md="11"
+          xs="12"
+        >
+          <slot />
+          <Browser
+            hide-breadcrumbs
+            :albums="albums"
+          />
+        </v-col>
+      </v-row>
     </Container>
   </div>
 </template>

@@ -1,43 +1,48 @@
+import jwtDecode from 'jwt-decode'
+
+const defaultUser = {
+  id: '',
+  username: '',
+  email: '',
+  roles: ''
+}
+
 export const state = () => ({
   title: '',
-  alert: {
-    type: '',
-    title: '',
-    description: '',
-    enabled: false
-  }
+  isAuthenticated: false,
+  user: defaultUser,
+  userToken: ''
 })
 
 export const mutations = {
   SET_TITLE (state, payload) {
     state.title = payload
   },
-  ADD_ALERT (state, payload) {
-    state.alert = {
-      type: payload.type,
-      title: payload.title,
-      description: payload.description,
-      enabled: true
-    }
+  SET_AUTH (state, payload) {
+    state.isAuthenticated = payload
   },
-  REMOVE_ALERT (state) {
-    state.alert = {
-      type: '',
-      title: '',
-      description: '',
-      enabled: false
+  LOGOUT (state) {
+    state.isAuthenticated = false
+    state.user = defaultUser
+    state.userToken = ''
+  },
+  LOAD_USER (state, token) {
+    const user = jwtDecode(token).user
+    state.userToken = token
+    state.isAuthenticated = true
+    state.user = {
+      ...state.user,
+      ...user
     }
+    console.log('User data:', user)
   }
 }
 
-// export const actions = {
-//   nuxtServerInit({ commit }, { req }) {
-//     if (
-//       req.cookies !== undefined &&
-//       req.cookies.user_token !== undefined &&
-//       req.cookies.user_token !== null
-//     ) {
-//         commit('LOAD_USER', req.cookies.user_token)
-//     }
-//   }
-// };
+export const actions = {
+  nuxtServerInit ({ commit }, { app }) {
+    const token = app.$cookies.get('wikiArchiveUserToken')
+    if (token !== undefined && token !== null) {
+      commit('LOAD_USER', token)
+    }
+  }
+}

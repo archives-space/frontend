@@ -20,12 +20,12 @@
             <v-card-text>
               <v-form @submit.prevent="executeLogin()">
                 <v-text-field
-                  v-model="username"
+                  v-model="login"
                   prepend-icon="mdi-account"
                   autocomplete="username"
                   autofocus
-                  name="username"
-                  label="Username"
+                  name="login"
+                  label="Username or Email"
                   type="text"
                 />
                 <v-text-field
@@ -59,6 +59,7 @@
               <v-btn
                 color="primary"
                 min-width="90px"
+                :loading="formLoading"
                 @click="executeLogin"
               >
                 Login
@@ -73,19 +74,41 @@
 
 <script>
 import Banner from '~/components/Banner'
+import login from '~/lib/login'
 
 export default {
   components: { Banner },
-  data: () => ({
-    username: '',
-    password: '',
-    passwordVisibility: true
-  }),
-  created () {
+  data () {
+    return {
+      login: '',
+      password: '',
+      passwordVisibility: true,
+      formLoading: false
+    }
   },
   methods: {
     executeLogin () {
+      this.$nextTick(() => {
+        this.formLoading = true
+        this.$http.post('/login', {
+          username: this.login,
+          password: this.password
+        }).then(async res => {
+          const loginData = await res.json()
+          login(this, loginData.data.token)
 
+          this.formLoading = false
+          this.$snackbars().add({ color: 'success', text: 'The login succeded' })
+        }).catch(err => {
+          console.log('err', err)
+          this.formLoading = false
+          if (err.response && err.response.status === 400 && err.response.data.errors[0].key === 'USER_INVALID_LOGIN') {
+            this.$snackbars().add({ color: 'error', text: 'Invalid username or password' })
+            return
+          }
+          this.$snackbars().add({ color: 'error', text: 'API request failed' })
+        })
+      })
     }
   },
   head () {

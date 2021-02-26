@@ -19,6 +19,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    { src: '~/plugins/snackbars.js', mode: 'client' },
+    { src: '~/plugins/cookie.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -33,14 +35,40 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxt/http',
+    'cookie-universal-nuxt'
   ],
 
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  // Http module config https://http.nuxtjs.org/options
+  http: {
+    proxy: true,
+    retry: false,
+    prefix: '/api/'
+  },
+
+  // publicRuntimeConfig: {},
+
+  proxy: {
+    '/api/': {
+      target: process.env.API_BASE_URL,
+      pathRewrite: { '^/api/': '' }
+    }
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {
+  // build: {
+  // },
+
+  eslint: {
+    rules: {
+      "vue/max-attributes-per-line": ["warn", {
+        "singleline": 2,
+        "multiline": {
+          "max": 2,
+          "allowFirstLine": false
+        }
+      }],
+      "arrow-parens": ["warn", "as-needed"]
+    }
   }
 }

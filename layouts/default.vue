@@ -5,23 +5,37 @@
       <Nuxt />
     </v-main>
     <Footer />
+    <SnackbarsStack ref="snackbarsStack" />
   </v-app>
 </template>
 
 <script>
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
+import SnackbarsStack from '~/components/SnackbarsStack.vue'
 
 export default {
+  name: 'DefaultLayout',
   components: {
     Header,
-    Footer
+    Footer,
+    SnackbarsStack
   },
   data: () => ({
     searchQuery: ''
   }),
   created () {
     this.$vuetify.theme.dark = true
+  },
+  mounted () {
+    this.$setSnackbars(this.$refs.snackbarsStack)
+
+    window.getUser = () => {
+      return JSON.stringify(this.$store.state.user)
+    }
+    window.getUserToken = () => {
+      return this.$store.state.userToken
+    }
   },
   head () {
     return {

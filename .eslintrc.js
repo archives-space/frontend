@@ -14,5 +14,14 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    "vue/max-attributes-per-line": ["warn", {
+      "singleline": 2,
+      "multiline": {
+        "max": 2,
+        "allowFirstLine": false
+      }
+    }],
+    "arrow-parens": ["warn", "as-needed"]
+  }
 }

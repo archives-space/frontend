@@ -11,9 +11,14 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxt/http": "nuxt/http",
     "@nuxtjs/axios": "^5.12.2",
+    "cookie-parser": "^1.4.5",
+    "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.6.5",
+    "jwt-decode": "^3.1.2",
     "nuxt": "^2.14.6",
+    "vue-cookie": "^1.1.4",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {

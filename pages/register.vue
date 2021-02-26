@@ -24,6 +24,7 @@
                 lazy-validation
               >
                 <v-text-field
+                  id="username"
                   v-model="username"
                   prepend-icon="mdi-account"
                   autocomplete="username"
@@ -38,19 +39,19 @@
                   prepend-icon="mdi-at"
                   autocomplete="email"
                   name="email"
-                  :rules="rules.email"
                   label="Email"
                   type="text"
+                  :rules="rules.email"
                 />
                 <v-text-field
                   id="password"
                   v-model="password"
-                  :loading="passwordWatcher"
                   prepend-icon="mdi-lock"
                   autocomplete="new-password"
                   name="password"
-                  :rules="rules.password"
                   label="Password"
+                  :loading="passwordWatcher"
+                  :rules="rules.password"
                   :append-icon="passwordVisibility ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="passwordVisibility ? 'password' : 'text'"
                   @click:append="passwordVisibility = !passwordVisibility"
@@ -72,7 +73,6 @@
                   name="password_confirm"
                   autocomplete="new-password"
                   label="Confirm your password"
-                  required
                   :rules="rules.confirmedPassword"
                   :append-icon="passwordConfirmationVisibility ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="passwordConfirmationVisibility ? 'password' : 'text'"
@@ -101,6 +101,7 @@
               <v-btn
                 color="primary"
                 min-width="110px"
+                :loading="formLoading"
                 @click="executeRegister"
               >
                 Register
@@ -116,42 +117,67 @@
 <script>
 import zxcvbn from 'zxcvbn'
 import Banner from '~/components/Banner'
+import login from '~/lib/login'
 
 export default {
   components: {
     Banner
   },
-  data: () => ({
-    username: '',
-    email: '',
-    password: '',
-    confirmedPassword: '',
-    terms: false,
-    valid: true,
-    rules: {
+  data () {
+    const apiErrorField = (value, propertyPath) => {
+      const errors = this.apiErrors.filter(e => e.propertyPath === propertyPath)
+      if (errors.length === 0) {
+        return true
+      }
+      return errors[0].message
+    }
+    const rulesRaw = {
       username: [
         v => !!v || 'This field is required',
         v => (v && v.length <= 30) || 'The username must be at most 30 characters long',
-        v => (v && v.length >= 3) || 'The username must be at least 3 characters long'
+        v => (v && v.length >= 3) || 'The username must be at least 3 characters long',
+        v => apiErrorField(v, 'username')
       ],
       email: [
         v => !!v || 'An email is required',
-        v => /.+@.+/.test(v) || 'The provided email is invalid'
+        v => /.+@.+/.test(v) || 'The provided email is invalid',
+        v => apiErrorField(v, 'email')
       ],
       password: [
         v => !!v || 'A password is required',
-        v => (v && v.length >= 5) || 'The password must be at least 5 characters long'
+        v => (v && v.length >= 5) || 'The password must be at least 5 characters long',
+        v => apiErrorField(v, 'password')
+        // v => this.resetValidation === true ||
+        //  !!this.apiErrors['QUERY_INT_EXPECTED'] || 'The password is too weak'
       ],
       confirmedPassword: [
-        v => !!v || 'You must confirm the password'
+        v => !!v || 'You must confirm the password',
+        v => (v && this.password === v) || 'The confirmed password must equal',
+        v => apiErrorField(v, 'confirmedPassword')
       ],
-      terms: [v => !!v || 'The rules of the community must be read']
-    },
-    apiErrors: [],
-    resetValidation: false,
-    passwordVisibility: true,
-    passwordConfirmationVisibility: true
-  }),
+      terms: [v => v || 'You must read the rules']
+    }
+    const rules = []
+    Object.keys(rulesRaw).forEach(k => {
+      rules[k] = [v => true]
+    })
+    return {
+      username: '',
+      email: '',
+      password: '',
+      confirmedPassword: '',
+      terms: false,
+      valid: true,
+      rulesRaw,
+      rules,
+      apiErrors: [],
+      resetValidation: false,
+      passwordVisibility: true,
+      passwordConfirmationVisibility: true,
+      formLoading: false,
+      erroredValues: []
+    }
+  },
   computed: {
     progress () {
       const progress = (this.passwordStrength * 25)
@@ -167,11 +193,52 @@ export default {
       return zxcvbn(this.password).score
     }
   },
+  watch: {
+    username () {
+      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'username')
+    },
+    email () {
+      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'email')
+    },
+    password () {
+      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'password')
+    }
+  },
   created () {
   },
   methods: {
     executeRegister () {
+      this.rules = this.rulesRaw
+      this.apiErrors = []
+      this.$nextTick(() => {
+        if (!this.$refs.form.validate()) {
+          this.$snackbars().add({ color: 'error', text: 'Invalid form' })
+          return
+        }
+        this.formLoading = true
+        this.$http.post('/register', {
+          username: this.username,
+          password: this.password,
+          email: this.email
+        }).then(async () => {
+          const loginData = await this.$http.$post('/login', { username: this.username, password: this.password })
+          login(this, loginData.data.token)
 
+          this.formLoading = false
+          this.$snackbars().add({ color: 'success', text: 'The registration succeded' })
+        }).catch(err => {
+          this.formLoading = false
+          if (err.response && err.response.code !== 400) {
+            this.$snackbars().add({ color: 'error', text: 'Invalid form' })
+            this.apiErrors = err.response.data.errors
+            this.$nextTick(() => {
+              this.$refs.form.validate()
+            })
+            return
+          }
+          this.$snackbars().add({ color: 'error', text: 'API request failed' })
+        })
+      })
     }
   },
   head () {
@@ -181,3 +248,13 @@ export default {
   }
 }
 </script>
+
+<style>
+#username {
+  margin-top: 0;
+}
+.cgu-checkbox {
+  margin-top: 1em;
+  margin-bottom: -.35em;
+}
+</style>
