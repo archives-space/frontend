@@ -124,8 +124,8 @@ export default {
     Banner
   },
   data () {
-    const apiErrorField = (value, propertyPath) => {
-      const errors = this.apiErrors.filter(e => e.propertyPath === propertyPath)
+    const apiErrorField = (_, path) => {
+      const errors = this.apiErrors.filter(e => e.path === path)
       if (errors.length === 0) {
         return true
       }
@@ -195,13 +195,13 @@ export default {
   },
   watch: {
     username () {
-      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'username')
+      this.apiErrors = this.apiErrors.filter(c => c.path !== 'username')
     },
     email () {
-      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'email')
+      this.apiErrors = this.apiErrors.filter(c => c.path !== 'email')
     },
     password () {
-      this.apiErrors = this.apiErrors.filter(c => c.propertyPath !== 'password')
+      this.apiErrors = this.apiErrors.filter(c => c.path !== 'password')
     }
   },
   created () {
