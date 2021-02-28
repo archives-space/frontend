@@ -118,42 +118,36 @@
 import zxcvbn from 'zxcvbn'
 import Banner from '~/components/Banner'
 import login from '~/lib/login'
+import apiErrorField from '~/lib/apiErrorField'
 
 export default {
   components: {
     Banner
   },
   data () {
-    const apiErrorField = (_, path) => {
-      const errors = this.apiErrors.filter(e => e.path === path)
-      if (errors.length === 0) {
-        return true
-      }
-      return errors[0].message
-    }
     const rulesRaw = {
       username: [
         v => !!v || 'This field is required',
         v => (v && v.length <= 30) || 'The username must be at most 30 characters long',
         v => (v && v.length >= 3) || 'The username must be at least 3 characters long',
-        v => apiErrorField(v, 'username')
+        _ => apiErrorField(this.apiErrors, 'username')
       ],
       email: [
         v => !!v || 'An email is required',
         v => /.+@.+/.test(v) || 'The provided email is invalid',
-        v => apiErrorField(v, 'email')
+        _ => apiErrorField(this.apiErrors, 'email')
       ],
       password: [
         v => !!v || 'A password is required',
         v => (v && v.length >= 5) || 'The password must be at least 5 characters long',
-        v => apiErrorField(v, 'password')
+        _ => apiErrorField(this.apiErrors, 'password')
         // v => this.resetValidation === true ||
         //  !!this.apiErrors['QUERY_INT_EXPECTED'] || 'The password is too weak'
       ],
       confirmedPassword: [
         v => !!v || 'You must confirm the password',
         v => (v && this.password === v) || 'The confirmed password must equal',
-        v => apiErrorField(v, 'confirmedPassword')
+        _ => apiErrorField(this.apiErrors, 'confirmedPassword')
       ],
       terms: [v => v || 'You must read the rules']
     }
@@ -174,8 +168,7 @@ export default {
       resetValidation: false,
       passwordVisibility: true,
       passwordConfirmationVisibility: true,
-      formLoading: false,
-      erroredValues: []
+      formLoading: false
     }
   },
   computed: {
