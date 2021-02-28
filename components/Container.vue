@@ -3,11 +3,11 @@
     <v-row justify="center">
       <v-col
         cols="12"
-        xl="12"
-        lg="12"
-        md="12"
-        sm="12"
-        xs="12"
+        :xl="xl"
+        :lg="lg"
+        :md="md"
+        :sm="sm"
+        :xs="xs"
       >
         <slot />
       </v-col>
@@ -17,6 +17,23 @@
 
 <script>
 export default {
-  name: 'Container'
+  name: 'Container',
+  props: {
+    xs: {
+      default: false
+    },
+    sm: {
+      default: false
+    },
+    md: {
+      default: false
+    },
+    lg: {
+      default: false
+    },
+    xl: {
+      default: false
+    }
+  }
 }
 </script>
