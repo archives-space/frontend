@@ -41,7 +41,7 @@
                   @keydown.enter="executeLogin"
                 />
                 <p class="caption d-flex justify-end pa-0 ma-0">
-                  <a @click="$router.push({name: 'recovery'})">
+                  <a @click="$router.push('/recovery/ask')">
                     I forgot my password
                   </a>
                 </p>
