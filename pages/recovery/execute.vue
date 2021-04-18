@@ -35,9 +35,15 @@ export default {
         this.$router.push('/account')
       }).catch(err => {
         console.log('err', err)
-        if (err.response && err.response.status === 400 && err.response.data.errors[0].key === 'RECOVERY_INVALID_TOKEN') {
-          this.$snackbars().add({ color: 'error', text: 'The token is invalid', timeout: -1 })
-          return
+        if (err.response && err.response.status === 400) {
+          if (err.response.data.errors[0].key === 'RECOVERY_INVALID_TOKEN') {
+            this.$snackbars().add({ color: 'error', text: 'The token is invalid', timeout: -1 })
+            return
+          }
+          if (err.response.data.errors[0].key === 'RECOVERY_EXPIRED_TOKEN') {
+            this.$snackbars().add({ color: 'error', text: 'The token is expired', timeout: -1 })
+            return
+          }
         }
         this.$snackbars().add({ color: 'error', text: 'API request failed', timeout: -1 })
       })
