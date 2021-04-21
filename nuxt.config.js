@@ -1,8 +1,12 @@
 export default {
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   // example: https://github.com/retrobox/web/blob/master/nuxt.config.js
   head: {
-    title: 'wikiarchives.space',
+    titleTemplate: '%s - Wikiarchives.space',
+    htmlAttrs: {
+      lang: 'en'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,7 +24,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~/plugins/snackbars.js', mode: 'client' },
-    { src: '~/plugins/cookie.js', mode: 'client' }
+    { src: '~/plugins/cookie.js', mode: 'client' },
+    { src: '~/plugins/debug.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

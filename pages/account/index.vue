@@ -28,6 +28,9 @@ export default {
   mounted () {
     console.log(this.user)
     this.$refs.userDetails.loadUser(this.user)
-  }
+  },
+  head: () => ({
+    title: 'Your account'
+  })
 }
 </script>

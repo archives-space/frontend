@@ -29,22 +29,6 @@ export default {
   },
   mounted () {
     this.$setSnackbars(this.$refs.snackbarsStack)
-
-    window.getUser = () => {
-      return JSON.stringify(this.$store.state.user)
-    }
-    window.getUserToken = () => {
-      return this.$store.state.userToken
-    }
-  },
-  head () {
-    return {
-      titleTemplate: '%s - WikiArchives.space',
-      meta: [],
-      htmlAttrs: {
-        lang: 'en'
-      }
-    }
   }
 }
 </script>

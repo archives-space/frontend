@@ -88,11 +88,9 @@ export default {
       }
     ]
   }),
-  head () {
-    return {
-      title: 'Home'
-    }
-  }
+  head: () => ({
+    title: 'Home'
+  })
 }
 </script>
 
