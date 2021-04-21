@@ -1,4 +1,5 @@
 export default {
+  loading: '~/components/Loading.vue',
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   // example: https://github.com/retrobox/web/blob/master/nuxt.config.js
