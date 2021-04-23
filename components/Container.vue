@@ -16,24 +16,16 @@
 </template>
 
 <script>
+const props = Object.fromEntries(
+  ['sm', 'xs', 'md', 'lg', 'xl']
+    .map(e => [
+      e,
+      { type: [Boolean, String, Number], default: false }
+    ])
+)
+
 export default {
   name: 'Container',
-  props: {
-    xs: {
-      default: false
-    },
-    sm: {
-      default: false
-    },
-    md: {
-      default: false
-    },
-    lg: {
-      default: false
-    },
-    xl: {
-      default: false
-    }
-  }
+  props
 }
 </script>
