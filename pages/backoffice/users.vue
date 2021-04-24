@@ -9,14 +9,16 @@
     <v-data-table
       :headers="headers"
       :items="users"
-      class="elevation-1">
+      class="elevation-1"
+    >
       <template v-slot:item.roles="{ item }">
         {{ item.roles.join(', ') }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn
           icon small
-          @click="viewItem(item)">
+          @click="viewItem(item)"
+        >
           <v-icon small>
             mdi-information
           </v-icon>
@@ -24,7 +26,8 @@
         <v-btn
           icon small
           color="info"
-          @click="editItem(item)">
+          @click="editItem(item)"
+        >
           <v-icon small>
             mdi-pencil
           </v-icon>
@@ -33,7 +36,8 @@
           icon
           small
           color="error"
-          @click="openDestroyUser(item)">
+          @click="openDestroyUser(item)"
+        >
           <v-icon small>
             mdi-delete
           </v-icon>
@@ -51,17 +55,33 @@
           </form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" text @click="editDialog=false">Close</v-btn>
+          <v-btn
+            color="red" text
+            @click="editDialog = false"
+          >
+            Close
+          </v-btn>
           <v-spacer />
-          <v-btn color="primary" text @click="editSubmit()">Submit</v-btn>
+          <v-btn
+            color="primary" text
+            @click="editSubmit()"
+          >
+            Submit
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="viewDialog" max-width="500px">
       <v-card>
         <v-card-text>
-          <v-layout justify-center row fill-height>
-            <v-avatar :tile="false" :size="80" class="mb-4 mt-4">
+          <v-layout
+            justify-center
+            row fill-height
+          >
+            <v-avatar
+              :tile="false" :size="80"
+              class="mb-4 mt-4"
+            >
               <img :src="viewUser.last_avatar" alt="avatar">
             </v-avatar>
           </v-layout>
@@ -76,7 +96,7 @@
                 <v-list-item-subtitle>Email</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-divider inset></v-divider>
+            <v-divider inset />
 
             <v-list-item>
               <v-list-item-action>
@@ -89,7 +109,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item @click="$copyText(viewUser.id)" ripple>
+            <v-list-item ripple @click="$copyText(viewUser.id)">
               <v-list-item-action />
               <v-list-item-content>
                 <v-list-item-title>{{ viewUser.id }}</v-list-item-title>
@@ -97,19 +117,19 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider inset></v-divider>
-
-            <v-list-item @click="$copyText(viewUser.last_user_agent)" ripple>
+            <v-divider inset />
+            <!--
+            <v-list-item ripple @click="$copyText(viewUser.last_user_agent)">
               <v-list-item-action>
                 <v-icon>mdi-settings_applications</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>{{viewUser.last_user_agent}}</v-list-item-title>
+                <v-list-item-title>{{ viewUser.last_user_agent }}</v-list-item-title>
                 <v-list-item-subtitle>Last user agent</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider inset></v-divider>
+            <v-divider inset /> -->
 
             <!--
             <v-list-item @click="">
@@ -183,7 +203,8 @@
           <v-btn
             color="primary"
             text
-            @click="viewDialog = false">
+            @click="viewDialog = false"
+          >
             Close
           </v-btn>
         </v-card-actions>
@@ -195,11 +216,17 @@
           Careful: Do you want to delete this user account?
         </v-card-title>
         <v-card-actions>
-          <v-btn text color="primary" @click="destroyUserModal = false">
+          <v-btn
+            text color="primary"
+            @click="destroyUserModal = false"
+          >
             Cancel
           </v-btn>
           <v-spacer />
-          <v-btn text color="error" @click="destroyUser()">
+          <v-btn
+            text color="error"
+            @click="destroyUser()"
+          >
             Destroy
           </v-btn>
         </v-card-actions>
@@ -216,9 +243,6 @@ export default {
     return {
       users
     }
-  },
-  created () {
-    this.$store.commit('SET_TITLE', 'Users list')
   },
   data: () => ({
     viewDialog: false,
@@ -240,6 +264,9 @@ export default {
     ],
     destroyUserModal: false
   }),
+  created () {
+    this.$store.commit('SET_TITLE', 'Users list')
+  },
   methods: {
     refresh () {
       this.$nuxt.refresh()

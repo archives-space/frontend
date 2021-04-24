@@ -9,8 +9,8 @@
         <template v-for="(module, index) in nav">
           <v-list-group
             v-if="module.subNav !== false"
-            no-action
             :key="index + '1'"
+            no-action
             :prepend-icon="module.icon"
           >
             <template v-slot:activator>
@@ -37,7 +37,8 @@
             :key="index + '2'"
             :to="module.indexRoute"
             ripple
-            exact>
+            exact
+          >
             <v-list-item-action>
               <v-icon>{{ module.icon }}</v-icon>
             </v-list-item-action>

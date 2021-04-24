@@ -1,13 +1,13 @@
 <template>
   <div
-    class="snackbar-stack"
     v-show="snackbars.length > 0"
+    class="snackbar-stack"
   >
     <v-snackbar
       v-for="snackbar in snackbars"
+      :key="snackbar.id"
       v-model="snackbar.enabled"
       :timeout="-1"
-      :key="snackbar.id"
       :color="snackbar.color"
       :value="true"
       class="snackbar-stack-entity"

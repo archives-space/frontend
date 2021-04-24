@@ -224,9 +224,7 @@ export default {
           if (err.response && err.response.code !== 400) {
             this.$snackbars().add({ color: 'error', text: 'Invalid form' })
             this.apiErrors = err.response.data.errors
-            this.$nextTick(() => {
-              this.$refs.form.validate()
-            })
+            this.$nextTick(this.$refs.form.validate)
             return
           }
           this.$snackbars().add({ color: 'error', text: 'API request failed' })

@@ -15,13 +15,16 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "vue/max-attributes-per-line": ["warn", {
-      "singleline": 2,
-      "multiline": {
-        "max": 2,
-        "allowFirstLine": false
+    'vue/max-attributes-per-line': ['warn', {
+      singleline: 2,
+      multiline: {
+        max: 2,
+        allowFirstLine: false
       }
     }],
-    "arrow-parens": ["warn", "as-needed"]
+    'arrow-parens': ['warn', 'as-needed'],
+    'spaced-comment': 'off',
+    'no-console': 'off',
+    'no-trailing-spaces': 'warn'
   }
 }

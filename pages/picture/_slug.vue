@@ -6,7 +6,10 @@
           :items="navigationItems"
           large
         />
-        <v-row justify="center" align="center" class="mt-5">
+        <v-row
+          justify="center" align="center"
+          class="mt-5"
+        >
           <v-img
             max-width="700px"
             :src="image.image"
@@ -15,7 +18,10 @@
       </v-col>
       <v-col cols="12" lg="4">
         <div class="d-flex justify-end mb-4">
-          <v-btn color="secondary" outlined class="sm-mr-0 mr-3">
+          <v-btn
+            color="secondary" outlined
+            class="sm-mr-0 mr-3"
+          >
             <v-icon left>
               mdi-arrow-expand-all
             </v-icon>

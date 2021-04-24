@@ -1,5 +1,8 @@
 <template>
-  <v-toolbar elevation="2" color="primary" dark>
+  <v-toolbar
+    elevation="2"
+    color="primary" dark
+  >
     <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
     <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
       WikiArchives.space
@@ -13,19 +16,24 @@
         style="max-width: 300px;"
         placeholder="Search into thousands of pictures"
       />
-      <v-btn icon dark class="mr-2">
+      <v-btn
+        icon dark
+        class="mr-2"
+      >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <template v-if="!$store.state.isAuthenticated">
         <v-btn
-          dark text outlined
+          dark text
+          outlined
           @click="$router.push('/login')"
         >
           Login
         </v-btn>
         <v-btn
           class="ml-2 mr-2"
-          dark text outlined
+          dark text
+          outlined
           @click="$router.push('/register')"
         >
           Register
@@ -33,10 +41,14 @@
       </template>
       <template v-else>
         <v-btn
-          dark text outlined
+          dark text
+          outlined
           @click="$router.push('/account')"
         >
-          <v-icon left>mdi-account-circle</v-icon> My Account
+          <v-icon left>
+            mdi-account-circle
+          </v-icon>
+          My Account
         </v-btn>
         <v-btn
           class="ml-2"
@@ -56,7 +68,10 @@
       </v-btn>
     </template>
     <template v-else>
-      <v-btn icon dark class="mr-2">
+      <v-btn
+        icon dark
+        class="mr-2"
+      >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <v-menu
