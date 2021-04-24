@@ -1,14 +1,31 @@
 <template>
   <v-card
-    ripple
     class="mx-auto"
     elevation="3"
     min-width="260"
     :max-width="maxWidth"
     :min-height="minHeight"
-    style="cursor: pointer;"
+    style="cursor: pointer; position: relative"
     @click="navigate"
   >
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          style="position:absolute; z-index:9; right: .5em; top: .5em"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>Delete</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-img
       class="white--text align-end"
       :height="minHeight*0.75"
@@ -70,9 +87,9 @@ export default {
   methods: {
     navigate () {
       if (this.entityType === 'album') {
-        this.$router.push('/album/' + this.data.slug)
+        this.$router.push('/catalog/' + this.data.id)
       } else {
-        this.$router.push('/picture/' + this.data.slug)
+        this.$router.push('/picture/' + this.data.id)
       }
     }
   }

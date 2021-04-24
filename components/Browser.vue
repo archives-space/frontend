@@ -1,63 +1,68 @@
 <template>
   <div>
-    <v-breadcrumbs
-      v-if="!hideBreadcrumbs"
-      :items="navigationItems"
-      large
-    />
+    <div v-if="showTop">
+      <v-breadcrumbs
+        :items="catalog.breadcrumbs"
+        large
+      >
+        <template v-slot:item="{ item }">
+          <v-breadcrumbs-item
+            :to="item.href"
+            :disabled="item.disabled"
+          >
+            {{ item.text }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
+      <v-divider />
+    </div>
     <v-row justify="center">
       <div
-        v-for="album in albums"
-        :key="album.id"
+        v-for="child in catalog.childrens"
+        :key="child.id"
         class="pa-3"
       >
         <BrowserCard
-          :data="album"
+          :data="child"
           entity-type="album"
         />
       </div>
     </v-row>
+    <v-row justify="center">
+      <div
+        v-for="picture in catalog.pictures"
+        :key="picture.id"
+        class="pa-3"
+      >
+        <BrowserCard
+          :data="picture"
+          entity-type="picture"
+        />
+      </div>
+    </v-row>
+    <CreateCatalog
+      ref="createCatalog"
+      class="mt-5"
+    />
   </div>
 </template>
 
 <script>
 import BrowserCard from '~/components/BrowserCard'
+import CreateCatalog from '~/components/Catalog/CreateCatalog'
 
 export default {
   name: 'Browser',
-  components: { BrowserCard },
+  components: { BrowserCard, CreateCatalog },
   props: {
-    albums: {
-      type: Array,
-      default: () => []
+    catalog: {
+      type: Object,
+      default: () => {}
     },
-    pictures: {
-      type: Array,
-      default: () => []
-    },
-    hideBreadcrumbs: {
+    showTop: {
       type: Boolean,
-      default: false
+      default: true
     }
-  },
-  data: () => ({
-    navigationItems: [
-      {
-        text: 'Dashboard',
-        disabled: false,
-        href: 'breadcrumbs_dashboard'
-      },
-      {
-        text: 'Link 1',
-        disabled: false,
-        href: 'breadcrumbs_link_1'
-      },
-      {
-        text: 'Link 2',
-        disabled: true,
-        href: 'breadcrumbs_link_2'
-      }
-    ]
-  })
+  }
 }
 </script>

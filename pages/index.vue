@@ -16,14 +16,15 @@
       <v-row justify="center">
         <v-col
           cols="12"
+          xl="9"
           lg="10"
           md="11"
           xs="12"
         >
           <slot />
           <Browser
-            hide-breadcrumbs
-            :albums="albums"
+            :show-top="false"
+            :catalog="catalog"
           />
         </v-col>
       </v-row>
@@ -42,51 +43,13 @@ export default {
     Browser,
     Container
   },
+  async asyncData ({ $http }) {
+    const data = (await $http.$get('/catalogs/root')).data
+    return { catalog: data }
+  },
   data: () => ({
-    albums: [
-      {
-        id: '4258',
-        name: 'US SPACE PROGRAM',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/07/22/20200722233701-f5d23cea-cu_e520x360.jpg',
-        photosCount: 41792,
-        albumsCount: 1266
-      },
-      {
-        id: '58754',
-        name: 'ISS',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/11/07/20201107132220-d995c15a-cu_e520x360.jpg',
-        photosCount: 10105,
-        albumsCount: 72
-      },
-      {
-        id: '42558',
-        name: 'MATED VERTICAL GROUND VIBRATION TEST',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/09/15/20200915012502-b10ef965-cu_e520x360.jpg',
-        photosCount: 41792,
-        albumsCount: 1266
-      },
-      {
-        id: '4251',
-        name: 'MICHOUD ASSEMBLY FACILITY',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/07/16/20200716201332-40f08ee9-cu_e520x360.jpg',
-        photosCount: 1154,
-        albumsCount: 7
-      },
-      {
-        id: '7899',
-        name: 'RUSSIAN SPACE PROGRAM',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/11/07/20201107134813-7c1be938-cu_e520x360.jpg',
-        photosCount: 249,
-        albumsCount: 11
-      },
-      {
-        id: '4250',
-        name: 'EUROPEAN SPACE PROGRAM',
-        image: 'https://www.wikiarchives.space/_data/i/upload/2020/07/16/20200716201332-40f08ee9-cu_e520x360.jpg',
-        photosCount: 1154,
-        albumsCount: 7
-      }
-    ]
+    catalogs: [],
+    pictures: []
   }),
   head: () => ({
     title: 'Home'
@@ -95,10 +58,6 @@ export default {
 </script>
 
 <style>
-body {
-  overflow-y: auto !important;
-}
-
 .header-title-container {
   height: 100%;
   display: flex;
