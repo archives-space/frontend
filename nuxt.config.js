@@ -25,8 +25,11 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~/plugins/snackbars.js', mode: 'client' },
-    { src: '~/plugins/cookie.js', mode: 'client' },
-    { src: '~/plugins/debug.js', mode: 'client' }
+    { src: '~/plugins/cookie.js' },
+    { src: '~/plugins/debug.js', mode: 'client' },
+    { src: '~/plugins/croppa.js', mode: 'client' },
+    { src: '~/plugins/utils.js' },
+    { src: '~/plugins/filters.js' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -59,22 +62,9 @@ export default {
       target: process.env.API_BASE_URL,
       pathRewrite: { '^/api/': '' }
     }
-  },
+  }
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   // build: {
   // },
-
-  eslint: {
-    rules: {
-      "vue/max-attributes-per-line": ["warn", {
-        "singleline": 2,
-        "multiline": {
-          "max": 2,
-          "allowFirstLine": false
-        }
-      }],
-      "arrow-parens": ["warn", "as-needed"]
-    }
-  }
 }

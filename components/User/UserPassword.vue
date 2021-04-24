@@ -1,14 +1,14 @@
 <template>
   <v-card class="mt-6">
     <v-card-title>
-      Edit password
+      Edit your password
     </v-card-title>
     <v-card-text>
       <v-form
         ref="form"
-        @submit.prevent="changePassword()"
         v-model="valid"
         lazy-validation
+        @submit.prevent="changePassword()"
       >
         <v-text-field
           id="password"

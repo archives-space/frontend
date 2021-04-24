@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-6">
+  <v-card>
     <v-card-title>
       Edit your details
     </v-card-title>
@@ -63,6 +63,14 @@
 import apiErrorField from '~/lib/apiErrorField'
 
 export default {
+
+  props: {
+    user: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+
   data () {
     const rulesRaw = {
       username: [_ => apiErrorField(this.apiErrors, 'username')],
@@ -80,8 +88,7 @@ export default {
       formLoading: false,
       rulesRaw,
       rules,
-      apiErrors: [],
-      user: {}
+      apiErrors: []
     }
   },
 
@@ -135,9 +142,6 @@ export default {
           this.$snackbars().add({ color: 'error', text: 'API request failed' })
         })
       })
-    },
-    loadUser (data) {
-      this.user = data
     }
   }
 }
