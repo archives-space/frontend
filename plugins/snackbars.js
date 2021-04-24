@@ -3,7 +3,7 @@ export default (_, inject) => {
   inject('testGlobal', (a, b) => {
     return a + b
   })
-  inject('setSnackbars', (val) => {
+  inject('setSnackbars', val => {
     snackbarsInterface = val
   })
   inject('snackbars', () => {

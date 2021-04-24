@@ -34,6 +34,10 @@ export default {
 </script>
 
 <style>
+html, body {
+  overflow-x: hidden;
+}
+
 .sticky-footer-up {
   flex: 1 0 auto;
 }
