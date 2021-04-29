@@ -11,8 +11,13 @@
       :items="users"
       class="elevation-1"
     >
+      <template v-slot:item.avatar="{ item }">
+        <v-avatar :size="25">
+          <v-img :src="item.avatar" />
+        </v-avatar>
+      </template>
       <template v-slot:item.roles="{ item }">
-        {{ item.roles.join(', ') }}
+        <UserRolesChips :roles="item.roles" />
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn
@@ -82,7 +87,7 @@
               :tile="false" :size="80"
               class="mb-4 mt-4"
             >
-              <img :src="viewUser.last_avatar" alt="avatar">
+              <img :src="viewUser.avatar" alt="avatar">
             </v-avatar>
           </v-layout>
           <v-list two-line>
@@ -98,7 +103,7 @@
             </v-list-item>
             <v-divider inset />
 
-            <v-list-item>
+            <v-list-item @click="$copyTextDialog($copyText, viewUser.id)">
               <v-list-item-action>
                 <v-icon>mdi-label</v-icon>
               </v-list-item-action>
@@ -109,7 +114,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item ripple @click="$copyText(viewUser.id)">
+            <v-list-item @click="$copyTextDialog($copyText, viewUser.id)">
               <v-list-item-action />
               <v-list-item-content>
                 <v-list-item-title>{{ viewUser.id }}</v-list-item-title>
@@ -236,10 +241,16 @@
 </template>
 
 <script>
+import UserRolesChips from '~/components/User/UserRolesChips'
+
 export default {
   layout: 'backoffice',
+  components: { UserRolesChips },
   async asyncData ({ $http }) {
-    const users = (await $http.$get('/users')).data
+    const users = (await $http.$get('/users')).data.map(u => {
+      u.avatar = u.avatar.url
+      return u
+    })
     return {
       users
     }
@@ -250,12 +261,12 @@ export default {
     editDialog: false,
     editUser: {},
     headers: [
-      // {
-      //   text: 'Avatar',
-      //   align: 'left',
-      //   sortable: false,
-      //   value: 'last_avatar'
-      // },
+      {
+        text: 'Avatar',
+        align: 'left',
+        sortable: false,
+        value: 'avatar'
+      },
       { text: 'Username', value: 'username' },
       { text: 'Email', value: 'email' },
       { text: 'Public name', value: 'publicName' },
@@ -273,6 +284,7 @@ export default {
     },
     async viewItem (item) {
       this.viewUser = (await this.$http.$get('/users/' + item.id)).data
+      this.viewUser.avatar = this.viewUser.avatar.url
       this.viewDialog = true
     },
     async editItem (item) {
