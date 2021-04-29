@@ -10,12 +10,17 @@
           md="5"
         >
           <UserAvatar :user="user" />
-          <UserPassword />
+          <UserPassword class="mt-6" />
         </v-col>
         <v-col
-          cols="7"
+          cols="12"
+          md="7"
         >
           <UserDetails :user="user" />
+          <UserDelete
+            class="mt-5"
+            :user="user"
+          />
         </v-col>
       </v-row>
     </Container>
@@ -24,6 +29,7 @@
 
 <script>
 import UserDetails from '~/components/User/UserDetails'
+import UserDelete from '~/components/User/UserDelete'
 import UserPassword from '~/components/User/UserPassword'
 import UserAvatar from '~/components/User/UserAvatar'
 
@@ -31,7 +37,8 @@ export default {
   components: {
     UserDetails,
     UserPassword,
-    UserAvatar
+    UserAvatar,
+    UserDelete
   },
   async asyncData ({ $http, store }) {
     const user = (await $http.$get('/users/' + store.state.user.id)).data

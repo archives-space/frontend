@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-6">
+  <v-card>
     <v-card-title>
       Edit your password
     </v-card-title>
