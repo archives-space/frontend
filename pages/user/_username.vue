@@ -14,33 +14,7 @@
             <span v-else>{{ user.username }}</span>
           </div>
           <div class="roles mt-5">
-            <v-chip
-              class="mr-2"
-              color="green"
-              text-color="white"
-            >
-              Contributeur
-            </v-chip>
-            <v-chip
-              class="mr-2"
-              color="purple"
-              text-color="white"
-            >
-              Modérateur
-            </v-chip>
-            <v-chip
-              class="mr-2"
-              color="primary"
-              text-color="white"
-            >
-              Développeur
-            </v-chip>
-            <v-chip
-              class="mr-2"
-              text-color="white"
-            >
-              Administrateur
-            </v-chip>
+            <UserRolesChips :roles="user.roles" />
           </div>
         </div>
       </div>
@@ -164,11 +138,13 @@
 /** Path exemple: /user/{username} */
 import Container from '~/components/Container'
 import UserActivity from '~/components/User/UserActivity'
+import UserRolesChips from '~/components/User/UserRolesChips.vue'
 
 export default {
   components: {
     Container,
-    UserActivity
+    UserActivity,
+    UserRolesChips
   },
   async asyncData ({ $http, route }) {
     const user = (await $http.$get('/users/' + route.params.username)).data

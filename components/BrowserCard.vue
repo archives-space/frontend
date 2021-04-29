@@ -49,6 +49,10 @@
 export default {
   name: 'BrowserCard',
   props: {
+    basePath: {
+      type: String,
+      default: ''
+    },
     entityType: {
       type: String,
       default: 'album'
@@ -87,9 +91,9 @@ export default {
   methods: {
     navigate () {
       if (this.entityType === 'album') {
-        this.$router.push('/catalog/' + this.data.id)
+        this.$router.push('/catalog/' + this.data.id + '/' + this.basePath + '/' + this.data.slug)
       } else {
-        this.$router.push('/picture/' + this.data.id)
+        this.$router.push('/picture/' + this.data.id + '/' + this.basePath + '/' + this.data.slug)
       }
     }
   }

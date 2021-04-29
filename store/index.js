@@ -17,7 +17,9 @@ export const state = () => ({
 export const mutations = {
   SET_TITLE (state, payload) {
     state.title = payload
-    document.title = payload + ' - Wikiarchives.space'
+    if (typeof document !== 'undefined') {
+      document.title = payload + ' - Wikiarchives.space'
+    }
   },
   SET_AUTH (state, payload) {
     state.isAuthenticated = payload

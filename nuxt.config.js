@@ -29,7 +29,9 @@ export default {
     { src: '~/plugins/debug.js', mode: 'client' },
     { src: '~/plugins/croppa.js', mode: 'client' },
     { src: '~/plugins/utils.js' },
-    { src: '~/plugins/filters.js' }
+    { src: '~/plugins/filters.js' },
+    { src: '~/plugins/clipboard.js', mode: 'client' },
+    { src: '~/plugins/clipboardDialog.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

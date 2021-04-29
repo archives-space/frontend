@@ -1,19 +1,7 @@
 <template>
   <div>
     <div v-if="showTop">
-      <v-breadcrumbs
-        :items="catalog.breadcrumbs"
-        large
-      >
-        <template v-slot:item="{ item }">
-          <v-breadcrumbs-item
-            :to="item.href"
-            :disabled="item.disabled"
-          >
-            {{ item.text }}
-          </v-breadcrumbs-item>
-        </template>
-      </v-breadcrumbs>
+      <CatalogBreadcrumb :items="catalog.breadcrumbs" />
       <v-divider />
     </div>
     <v-row justify="center">
@@ -24,6 +12,7 @@
       >
         <BrowserCard
           :data="child"
+          :base-path="catalog.path"
           entity-type="album"
         />
       </div>
@@ -50,10 +39,11 @@
 <script>
 import BrowserCard from '~/components/BrowserCard'
 import CreateCatalog from '~/components/Catalog/CreateCatalog'
+import CatalogBreadcrumb from '~/components/CatalogBreadcrumb'
 
 export default {
   name: 'Browser',
-  components: { BrowserCard, CreateCatalog },
+  components: { CatalogBreadcrumb, BrowserCard, CreateCatalog },
   props: {
     catalog: {
       type: Object,
