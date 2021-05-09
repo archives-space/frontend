@@ -16,7 +16,10 @@
     <v-divider />
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" lg="9" xl="7">
+        <v-col
+          cols="12" lg="9"
+          xl="7"
+        >
           <v-row
             justify="center" align="center"
             class="mt-5 pb-3"
@@ -40,8 +43,14 @@
               </template>
             </v-img>
           </v-row>
-          <v-row justify="center" align="center" class="mt-8">
-            <v-col cols="12" lg="11" md="12">
+          <v-row
+            justify="center" align="center"
+            class="mt-8"
+          >
+            <v-col
+              cols="12" lg="11"
+              md="12"
+            >
               <div class="d-flex justify-space-between align-center">
                 <v-btn
                   icon outlined
@@ -80,7 +89,11 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="12" xs="12" sm="10" md="8" lg="6" xl="5">
+        <v-col
+          cols="12" xs="12"
+          sm="10" md="8"
+          lg="6" xl="5"
+        >
           <div class="d-flex justify-end mb-4">
             <v-btn
               color="info" outlined
@@ -236,7 +249,7 @@
                       </v-list-item-content>
                     </v-list-item>
 
-                    <v-divider/>
+                    <v-divider />
                     <v-list-item>
                       <v-list-item-icon>
                         <v-icon>mdi-magnify</v-icon>
