@@ -31,6 +31,7 @@ export default {
     { src: '~/plugins/utils.js' },
     { src: '~/plugins/filters.js' },
     { src: '~/plugins/clipboard.js', mode: 'client' },
+    { src: '~/plugins/leaflet.js', mode: 'client' },
     { src: '~/plugins/clipboardDialog.js', mode: 'client' }
   ],
 
