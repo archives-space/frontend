@@ -10,6 +10,7 @@
  */
 
 import Browser from '~/components/Browser'
+import { generatePath } from '~/lib/catalog'
 
 export default {
   components: {
@@ -22,33 +23,8 @@ export default {
       id = route.params.pathMatch
     }
     return $http.get('/catalogs/' + id).then(async res => {
-      const catalog = (await res.json()).data
-      let path = ''
-      const breadcrumbs = []
-      catalog.breadcrumbs.forEach(item => {
-        if (item.slug === 'root') {
-          breadcrumbs.push({
-            text: 'Home',
-            slug: 'root',
-            disabled: false,
-            href: '/'
-          })
-          return
-        }
-        path += catalog.slug === 'root' ? '/' : '/' + item.slug
-        breadcrumbs.push({
-          text: item.title,
-          slug: item.slug,
-          href: '/catalog/' + item.id + path,
-          path
-        })
-      })
-      //console.log(JSON.parse(JSON.stringify(breadcrumbs)))
-      const last = breadcrumbs[breadcrumbs.length - 1]
-      last.disabled = true
-      breadcrumbs[breadcrumbs.length - 1] = last
-      catalog.breadcrumbs = breadcrumbs
-      catalog.path = breadcrumbs[breadcrumbs.length - 1].path
+      let catalog = (await res.json()).data
+      catalog = { ...catalog, ...generatePath(catalog) }
 
       let pathMatch = route.params.pathMatch
       if (pathMatch.charAt(0) !== '/') {
