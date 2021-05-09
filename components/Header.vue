@@ -40,32 +40,65 @@
         </v-btn>
       </template>
       <template v-else>
-        <v-btn
-          dark text
-          outlined
-          @click="$router.push('/account')"
-        >
-          <v-icon left>
-            mdi-account-circle
-          </v-icon>
-          My Account
-        </v-btn>
-        <v-btn
-          class="ml-2"
-          dark icon
-          @click="logout"
-        >
-          <v-icon>mdi-logout</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              dark icon
+              v-bind="attrs"
+              v-on="on"
+              @click="$router.push('/account/contributions')"
+            >
+              <v-icon>
+                mdi-script
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>My contributions</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              dark icon
+              v-bind="attrs"
+              v-on="on"
+              @click="$router.push('/account/settings')"
+            >
+              <v-icon>
+                mdi-account-circle
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Settings</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="ml-2"
+              dark icon
+              v-bind="attrs"
+              v-on="on"
+              @click="logout"
+            >
+              <v-icon>mdi-logout</v-icon>
+            </v-btn>
+          </template>
+          <span>Logout</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mr-2"
+              icon dark
+              v-bind="attrs"
+              v-on="on"
+              @click="switchTheme"
+            >
+              <v-icon>mdi-invert-colors</v-icon>
+            </v-btn>
+          </template>
+          <span>Toggle dark mode</span>
+        </v-tooltip>
       </template>
-      <v-btn
-        icon
-        dark
-        class="mr-2"
-        @click="switchTheme"
-      >
-        <v-icon>mdi-invert-colors</v-icon>
-      </v-btn>
     </template>
     <template v-else>
       <v-btn
@@ -108,9 +141,19 @@
           </template>
           <template v-else>
             <v-list-item
-              @click="$router.push('/account')"
+              @click="$router.push('/account/settings')"
             >
-              <v-list-item-title>My account</v-list-item-title>
+              <v-list-item-title>Settings</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              @click="$router.push('/account/contributions')"
+            >
+              <v-list-item-title>My contributions</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              @click="$router.push('/user/' + $store.state.user.username)"
+            >
+              <v-list-item-title>My public profile</v-list-item-title>
             </v-list-item>
             <v-list-item
               @click="logout"
