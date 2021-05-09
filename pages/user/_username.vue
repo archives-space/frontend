@@ -27,23 +27,25 @@
             <v-card-text>
               <v-list two-line class="pt-0">
                 <v-subheader>About this user</v-subheader>
-                <v-divider />
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="indigo">
-                      mdi-text
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <div
-                      v-for="line in user.biography"
-                      :key="line.index"
-                      :class="{'mb-2': line.index+1 != user.biography.length }"
-                    >
-                      {{ line.value }}<br>
-                    </div>
-                  </v-list-item-content>
-                </v-list-item>
+                <template v-if="user.biography != null">
+                  <v-divider />
+                  <v-list-item>
+                    <v-list-item-icon>
+                      <v-icon color="indigo">
+                        mdi-text
+                      </v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <div
+                        v-for="line in user.biography"
+                        :key="line.index"
+                        :class="{'mb-2': line.index+1 !== user.biography.length }"
+                      >
+                        {{ line.value }}<br>
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
 
                 <template v-if="user.location != null">
                   <v-divider />
@@ -146,10 +148,21 @@ export default {
     UserActivity,
     UserRolesChips
   },
-  async asyncData ({ $http, route }) {
+  async asyncData ({
+    $http,
+    route
+  }) {
     const user = (await $http.$get('/users/' + route.params.username)).data
-    user.biography = user.biography.split('\n').map((value, index) => ({ value, index }))
-    user.createdAt = (new Date(user.createdAt)).toLocaleDateString('en', { year: 'numeric', month: 'long' })
+    if (user.biography != null) {
+      user.biography = user.biography.split('\n').map((value, index) => ({
+        value,
+        index
+      }))
+    }
+    user.createdAt = (new Date(user.createdAt)).toLocaleDateString('en', {
+      year: 'numeric',
+      month: 'long'
+    })
     return { user }
   },
   data: () => ({
