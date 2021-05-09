@@ -9,4 +9,7 @@ export default (_, inject) => {
   inject('snackbars', () => {
     return snackbarsInterface
   })
+  inject('pushSnackbar', (color, text) => {
+    snackbarsInterface.add({ color, text })
+  })
 }

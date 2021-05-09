@@ -1,15 +1,10 @@
 <template>
-  <div
-    v-show="snackbars.length > 0"
-    class="snackbar-stack"
-  >
+  <div class="snackbar-stack">
     <v-snackbar
-      v-for="snackbar in snackbars"
-      :key="snackbar.id"
+      v-for="(snackbar, index) in snackbars"
+      :key="index"
       v-model="snackbar.enabled"
-      :timeout="-1"
       :color="snackbar.color"
-      :value="true"
       class="snackbar-stack-entity"
     >
       {{ snackbar.text }}
@@ -17,7 +12,7 @@
         <v-btn
           text
           v-bind="attrs"
-          @click="remove(snackbar)"
+          @click="remove(index)"
         >
           Close
         </v-btn>
@@ -27,36 +22,46 @@
 </template>
 
 <script>
-import { v4 as uuid } from 'uuid'
-
 export default {
   name: 'Snackbar',
-  data: () => ({
-    snackbars: []
-  }),
+  data () {
+    const defaultTimeout = 3600
+    const snackbars = []
+    for (let i = 0; i < 10; i++) {
+      snackbars.push({ enabled: false, text: 'hello-world', color: 'primary', timeout: defaultTimeout })
+    }
+    return {
+      defaultTimeout,
+      snackbars,
+      pointer: 10
+    }
+  },
   methods: {
     add (snackbar) {
-      const entity = {
-        id: uuid(),
-        enabled: true,
-        timeout: 3500,
-        ...snackbar
+      this.pointer--
+      if (this.pointer < 0 || this.pointer >= 10) {
+        this.pointer = 9
       }
-      if (entity.timeout >= 0) {
+      const pointer = this.pointer
+      this.snackbars[pointer].timeout = snackbar.timeout ?? this.defaultTimeout
+      this.snackbars[pointer].text = snackbar.text
+      this.snackbars[pointer].color = snackbar.color
+      this.$nextTick(() => {
+        this.snackbars[pointer].enabled = true
+      })
+      /* const timeout = this.snackbars[this.pointer].timeout */
+      /* if (Number.isSafeInteger(timeout) && timeout >= 0) {
         setTimeout(() => {
-          this.remove(entity)
-        }, entity.timeout)
-      }
-      this.snackbars = [
-        ...this.snackbars,
-        entity
-      ]
+          this.remove(pointer)
+        }, this.snackbars[this.pointer].timeout)
+      } */
+      return pointer
     },
-    remove (snackbar) {
-      this.snackbars = this.snackbars.filter(s => s.id !== snackbar.id)
+    remove (pointer) {
+      this.snackbars[pointer].enabled = false
     },
     clear () {
-      this.snackbars = []
+      this.snackbars = this.snackbars.map(s => ({ ...s, enabled: false }))
     }
   }
 }
