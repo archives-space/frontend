@@ -2,6 +2,11 @@
 
 The public, front facing website created with the help of [Nuxt.js](https://nuxtjs.org/) and [Vuetify.js](https://vuetifyjs.com/).
 
+Docs, specifications, database scheme:
+
+- Specifications: https://hackmd.io/xXkZbN96Sa-DLVGqzd81SQ
+- API DOCS/DATABASE SCHEME: https://hackmd.io/uJCY2ku7RzKEtzWvDg6Zrg
+
 ## Build Setup
 
 ```bash
